@@ -2,4 +2,4 @@
 A sample code written in C:-
 
 Memory leak using format string bug to bypass ASLR
-Generate relative rop chain by calculating base address
+generate relative rop chain by calculating base address
