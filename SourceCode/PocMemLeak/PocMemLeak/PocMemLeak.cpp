@@ -10,8 +10,6 @@
 #define _WIN32_WINNT_WIN7                   0x0601
 
 #pragma comment(lib,"ws2_32.lib") //Winsock Library
-
-// junk asm instructions for completing missing rop gadgets
 int foo() {
 	__asm
 	{
@@ -82,17 +80,21 @@ int bar(int x) {
 	};
 	unsigned int payload_len = 4;
 
+	// Allocate a memory buffer for payload
 	exec_mem = VirtualAlloc(0, payload_len, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
+
+	// Copy payload to new buffer
 	RtlMoveMemory(exec_mem, payload, payload_len);
 
+	// Make new buffer as executable
 	rv = VirtualProtect(exec_mem, payload_len, PAGE_EXECUTE_READ, &oldprotect);
 
 	if (rv != 0) {
 		th = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)exec_mem, 0, 0, 0);
 		WaitForSingleObject(th, -1);
 	}
-
+	
 	return 0;
 
 	LPVOID ptr = VirtualAlloc(NULL, 3000, MEM_RESERVE, PAGE_READWRITE); //reserving memory
@@ -186,15 +188,8 @@ int main(int argc, char *argv[])
 //orignal file print code
 			fprintf(fp, input_1);
 
-/*
-// start new code
-			va_list aptr;
-			va_start(aptr, input_1);
-			vsnprintf(data, sizeof(data) , input_1, aptr);
-			va_end(aptr);
-// end new code
-			printf(data);
-*/			fclose(fp);
+
+			fclose(fp);
 
 			printf("\nData written to file....");
 			printf("\nReading file....");
