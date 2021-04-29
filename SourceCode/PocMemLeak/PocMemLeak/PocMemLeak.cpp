@@ -10,6 +10,8 @@
 #define _WIN32_WINNT_WIN7                   0x0601
 
 #pragma comment(lib,"ws2_32.lib") //Winsock Library
+
+// junk asm instructions for completing missing rop gadgets
 int foo() {
 	__asm
 	{
