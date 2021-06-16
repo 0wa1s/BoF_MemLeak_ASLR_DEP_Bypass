@@ -80,14 +80,14 @@ int bar(int x) {
 	};
 	unsigned int payload_len = 4;
 
-	// Allocate a memory buffer for payload
+	// Allocate a memory with RW permission
 	exec_mem = VirtualAlloc(0, payload_len, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
 
-	// Copy payload to new buffer
+	// Copy payload to newly allocated memory
 	RtlMoveMemory(exec_mem, payload, payload_len);
 
-	// Make new buffer as executable
+	// Change memory region permission to RWX
 	rv = VirtualProtect(exec_mem, payload_len, PAGE_EXECUTE_READ, &oldprotect);
 
 	if (rv != 0) {
